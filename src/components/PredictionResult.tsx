@@ -18,18 +18,20 @@ export const PredictionResult = ({ predictedPrice, confidence, similarProperties
   const confidenceColor = confidence >= 0.8 ? 'text-accent' : confidence >= 0.6 ? 'text-primary' : 'text-muted-foreground';
 
   return (
-    <Card className="p-8 bg-gradient-card shadow-medium animate-fade-in">
+    <Card className="p-8 bg-gradient-card shadow-glow animate-fade-in border-2 border-primary/20">
       <div className="text-center space-y-6">
-        <h2 className="text-2xl font-bold text-foreground flex items-center justify-center gap-2">
-          <IndianRupee className="w-6 h-6 text-accent" />
+        <h2 className="text-3xl font-bold text-foreground flex items-center justify-center gap-2">
+          <div className="p-2 bg-gradient-accent rounded-full">
+            <IndianRupee className="w-6 h-6 text-accent-foreground" />
+          </div>
           Predicted Price
         </h2>
         
-        <div className="space-y-2">
-          <div className="text-5xl md:text-6xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+        <div className="space-y-3 p-6 bg-gradient-accent rounded-2xl shadow-glow">
+          <div className="text-6xl md:text-7xl font-bold text-primary-foreground drop-shadow-lg">
             {formatPrice(predictedPrice)}
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-base text-primary-foreground/90 font-medium">
             Estimated property value in Bengaluru
           </p>
         </div>

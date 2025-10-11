@@ -11,12 +11,14 @@ export const DatasetPreview = ({ data }: DatasetPreviewProps) => {
   const previewData = data.slice(0, 10);
 
   return (
-    <Card className="p-6 bg-gradient-card shadow-soft animate-fade-in">
-      <div className="flex items-center gap-2 mb-4">
-        <Database className="w-5 h-5 text-primary" />
-        <h3 className="text-xl font-semibold text-foreground">Dataset Preview</h3>
-        <span className="text-sm text-muted-foreground ml-auto">
-          Showing 10 of {data.length} properties
+    <Card className="p-6 bg-gradient-card shadow-medium animate-fade-in border border-primary/10">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="p-2 bg-primary/10 rounded-lg">
+          <Database className="w-6 h-6 text-primary" />
+        </div>
+        <h3 className="text-2xl font-bold text-foreground">Dataset Preview</h3>
+        <span className="text-sm text-muted-foreground ml-auto bg-secondary/20 px-3 py-1 rounded-full">
+          Showing 10 of {data.length.toLocaleString()} properties
         </span>
       </div>
       

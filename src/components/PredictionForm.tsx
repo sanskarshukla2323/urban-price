@@ -146,10 +146,10 @@ export const PredictionForm = ({ locations, areaTypes, onPredict, isLoading }: P
 
         <Button 
           type="submit" 
-          className="w-full bg-gradient-hero hover:opacity-90 transition-opacity text-primary-foreground shadow-soft"
+          className="w-full bg-gradient-hero hover:opacity-90 transition-all text-primary-foreground shadow-glow font-semibold text-lg py-6"
           disabled={!formData.location || isLoading}
         >
-          {isLoading ? 'Predicting...' : 'Predict Price'}
+          {isLoading ? '✨ Analyzing...' : '🚀 Predict Price'}
         </Button>
       </form>
     </Card>

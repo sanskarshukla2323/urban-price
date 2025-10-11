@@ -79,17 +79,25 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="bg-gradient-hero text-primary-foreground py-20 px-4">
-        <div className="container mx-auto max-w-6xl text-center space-y-6 animate-fade-in">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Building2 className="w-12 h-12" />
-            <BarChart3 className="w-10 h-10" />
+      <section className="relative bg-gradient-hero text-primary-foreground py-24 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-40"></div>
+        <div className="container mx-auto max-w-6xl text-center space-y-8 animate-fade-in relative z-10">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <div className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-glow">
+              <Building2 className="w-14 h-14" />
+            </div>
+            <div className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-glow">
+              <BarChart3 className="w-12 h-12" />
+            </div>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-            Bengaluru Real Estate Price Predictor
+          <h1 className="text-6xl md:text-7xl font-bold tracking-tight drop-shadow-lg">
+            URBAN PRICE
           </h1>
-          <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto">
-            Get accurate property price predictions powered by {dataset.length.toLocaleString()}+ real estate transactions
+          <p className="text-2xl md:text-3xl font-light text-primary-foreground/95 max-w-3xl mx-auto leading-relaxed">
+            AI-Powered Property Predictions
+          </p>
+          <p className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto">
+            Get accurate valuations powered by {dataset.length.toLocaleString()}+ real transactions
           </p>
         </div>
       </section>
@@ -124,9 +132,11 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border py-8 mt-20">
-        <div className="container mx-auto max-w-6xl px-4 text-center text-muted-foreground">
-          <p>Powered by machine learning and real market data from Bengaluru</p>
+      <footer className="relative bg-gradient-hero text-primary-foreground py-12 mt-20">
+        <div className="container mx-auto max-w-6xl px-4 text-center space-y-4">
+          <h3 className="text-2xl font-bold">URBAN PRICE</h3>
+          <p className="text-primary-foreground/80">Powered by machine learning and real market data from Bengaluru</p>
+          <p className="text-sm text-primary-foreground/60">© 2025 Urban Price. All rights reserved.</p>
         </div>
       </footer>
     </div>
