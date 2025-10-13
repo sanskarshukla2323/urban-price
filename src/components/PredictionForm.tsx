@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { PropertyData, PropertyPredictionInput } from '@/types/property';
-import { Home, MapPin, Square, Bath, Maximize } from 'lucide-react';
+import { Home, MapPin, Square, Bath, Maximize, Map, Building } from 'lucide-react';
 
 interface PredictionFormProps {
   locations: string[];
@@ -16,6 +16,8 @@ interface PredictionFormProps {
 
 export const PredictionForm = ({ locations, areaTypes, onPredict, isLoading }: PredictionFormProps) => {
   const [formData, setFormData] = useState<PropertyPredictionInput>({
+    state: 'Karnataka',
+    city: 'Bengaluru',
     location: '',
     size: '2 BHK',
     total_sqft: 1000,
@@ -24,27 +26,93 @@ export const PredictionForm = ({ locations, areaTypes, onPredict, isLoading }: P
     area_type: 'Super built-up  Area',
   });
 
+  // Mock data for future expansion
+  const states = ['Karnataka', 'Maharashtra', 'Delhi', 'Tamil Nadu', 'Telangana'];
+  const cities: Record<string, string[]> = {
+    'Karnataka': ['Bengaluru', 'Mysuru', 'Mangaluru'],
+    'Maharashtra': ['Mumbai', 'Pune', 'Nagpur'],
+    'Delhi': ['New Delhi', 'Gurgaon', 'Noida'],
+    'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai'],
+    'Telangana': ['Hyderabad', 'Warangal', 'Karimnagar'],
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.location) {
+    if (formData.state && formData.city && formData.location) {
       onPredict(formData);
     }
+  };
+
+  const handleStateChange = (value: string) => {
+    setFormData({ 
+      ...formData, 
+      state: value, 
+      city: cities[value]?.[0] || '',
+      location: '' 
+    });
   };
 
   const bhkOptions = ['1 BHK', '2 BHK', '3 BHK', '4 BHK', '5 BHK', '6 BHK'];
 
   return (
-    <Card className="p-8 bg-gradient-card shadow-medium animate-fade-in">
+    <Card className="p-8 bg-gradient-card shadow-medium animate-fade-in border border-primary/10">
+      <div className="mb-6">
+        <h3 className="text-2xl font-bold text-foreground mb-2">Property Details</h3>
+        <p className="text-muted-foreground">Enter the details below to get an accurate price prediction</p>
+      </div>
+      
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label className="flex items-center gap-2 text-foreground">
-              <MapPin className="w-4 h-4 text-primary" />
-              Location
+              <Map className="w-4 h-4 text-primary" />
+              State
             </Label>
-            <Select value={formData.location} onValueChange={(value) => setFormData({ ...formData, location: value })}>
+            <Select value={formData.state} onValueChange={handleStateChange}>
               <SelectTrigger>
-                <SelectValue placeholder="Select location" />
+                <SelectValue placeholder="Select state" />
+              </SelectTrigger>
+              <SelectContent>
+                {states.map((state) => (
+                  <SelectItem key={state} value={state}>
+                    {state}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="flex items-center gap-2 text-foreground">
+              <Building className="w-4 h-4 text-primary" />
+              City
+            </Label>
+            <Select value={formData.city} onValueChange={(value) => setFormData({ ...formData, city: value, location: '' })}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select city" />
+              </SelectTrigger>
+              <SelectContent>
+                {cities[formData.state]?.map((city) => (
+                  <SelectItem key={city} value={city}>
+                    {city}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2 md:col-span-2">
+            <Label className="flex items-center gap-2 text-foreground">
+              <MapPin className="w-4 h-4 text-primary" />
+              Location / Area
+            </Label>
+            <Select 
+              value={formData.location} 
+              onValueChange={(value) => setFormData({ ...formData, location: value })}
+              disabled={formData.city !== 'Bengaluru'}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={formData.city === 'Bengaluru' ? "Select location" : "Dataset available only for Bengaluru"} />
               </SelectTrigger>
               <SelectContent className="max-h-[300px]">
                 {locations.map((location) => (
@@ -54,6 +122,11 @@ export const PredictionForm = ({ locations, areaTypes, onPredict, isLoading }: P
                 ))}
               </SelectContent>
             </Select>
+            {formData.city !== 'Bengaluru' && (
+              <p className="text-xs text-muted-foreground">
+                Dataset for other cities coming soon!
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -147,7 +220,7 @@ export const PredictionForm = ({ locations, areaTypes, onPredict, isLoading }: P
         <Button 
           type="submit" 
           className="w-full bg-gradient-hero hover:opacity-90 transition-all text-primary-foreground shadow-glow font-semibold text-lg py-6"
-          disabled={!formData.location || isLoading}
+          disabled={!formData.state || !formData.city || !formData.location || isLoading}
         >
           {isLoading ? '✨ Analyzing...' : '🚀 Predict Price'}
         </Button>

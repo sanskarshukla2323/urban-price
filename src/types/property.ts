@@ -11,6 +11,8 @@ export interface PropertyData {
 }
 
 export interface PropertyPredictionInput {
+  state: string;
+  city: string;
   location: string;
   size: string;
   total_sqft: number;
