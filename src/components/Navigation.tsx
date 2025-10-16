@@ -1,9 +1,13 @@
-import { Building2, Menu, X } from 'lucide-react';
+import { Building2, Menu, X, LogOut, User as UserIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -11,6 +15,15 @@ export const Navigation = () => {
       element.scrollIntoView({ behavior: 'smooth' });
       setIsMenuOpen(false);
     }
+  };
+
+  const handleAuthClick = () => {
+    if (user) {
+      signOut();
+    } else {
+      navigate('/auth');
+    }
+    setIsMenuOpen(false);
   };
 
   return (
@@ -52,11 +65,24 @@ export const Navigation = () => {
             >
               Dataset
             </button>
+            {user && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <UserIcon className="w-4 h-4" />
+                <span className="max-w-[150px] truncate">{user.email}</span>
+              </div>
+            )}
             <Button 
-              onClick={() => scrollToSection('predict')}
-              className="bg-gradient-hero hover:opacity-90 transition-all text-primary-foreground shadow-glow"
+              onClick={handleAuthClick}
+              className="bg-gradient-hero hover:opacity-90 transition-all text-primary-foreground shadow-glow flex items-center gap-2"
             >
-              Get Started
+              {user ? (
+                <>
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </>
+              ) : (
+                'Sign In'
+              )}
             </Button>
           </div>
 
@@ -100,11 +126,24 @@ export const Navigation = () => {
             >
               Dataset
             </button>
+            {user && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground px-4 py-2">
+                <UserIcon className="w-4 h-4" />
+                <span className="truncate">{user.email}</span>
+              </div>
+            )}
             <Button 
-              onClick={() => scrollToSection('predict')}
-              className="w-full bg-gradient-hero hover:opacity-90 transition-all text-primary-foreground shadow-glow"
+              onClick={handleAuthClick}
+              className="w-full bg-gradient-hero hover:opacity-90 transition-all text-primary-foreground shadow-glow flex items-center gap-2 justify-center"
             >
-              Get Started
+              {user ? (
+                <>
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </>
+              ) : (
+                'Sign In'
+              )}
             </Button>
           </div>
         )}

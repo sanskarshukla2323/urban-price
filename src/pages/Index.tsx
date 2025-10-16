@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PropertyData, PropertyPredictionInput } from '@/types/property';
 import { parseCSV, getUniqueValues } from '@/utils/csvParser';
 import { predictPrice } from '@/utils/pricePredictor';
@@ -9,6 +10,8 @@ import { Navigation } from '@/components/Navigation';
 import { FeaturesSection } from '@/components/FeaturesSection';
 import { StatsSection } from '@/components/StatsSection';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { Loader2, TrendingUp, Shield, Zap } from 'lucide-react';
 
 const Index = () => {
@@ -23,6 +26,8 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(true);
   const { toast } = useToast();
+  const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadData = async () => {
@@ -53,12 +58,42 @@ const Index = () => {
     loadData();
   }, [toast]);
 
-  const handlePredict = (input: PropertyPredictionInput) => {
+  const handlePredict = async (input: PropertyPredictionInput) => {
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to make predictions",
+        variant: "destructive",
+      });
+      navigate('/auth');
+      return;
+    }
+
     setIsLoading(true);
     
-    setTimeout(() => {
+    setTimeout(async () => {
       const result = predictPrice(input, dataset);
       setPredictionResult(result);
+
+      // Save prediction to database
+      try {
+        await supabase.from('predictions').insert({
+          user_id: user.id,
+          state: input.state,
+          city: input.city,
+          location: input.location,
+          size: input.size,
+          total_sqft: input.total_sqft,
+          bath: input.bath,
+          balcony: input.balcony,
+          area_type: input.area_type,
+          predicted_price: result.predictedPrice,
+          confidence: result.confidence,
+        });
+      } catch (error) {
+        console.error('Error saving prediction:', error);
+      }
+
       setIsLoading(false);
 
       toast({
@@ -68,7 +103,7 @@ const Index = () => {
     }, 800);
   };
 
-  if (dataLoading) {
+  if (dataLoading || authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4">

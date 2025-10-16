@@ -4,8 +4,9 @@ import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { PropertyData, PropertyPredictionInput } from '@/types/property';
+import { PropertyPredictionInput } from '@/types/property';
 import { Home, MapPin, Square, Bath, Maximize, Map, Building } from 'lucide-react';
+import { getAllStates, getCitiesByState } from '@/data/indianStatesAndCities';
 
 interface PredictionFormProps {
   locations: string[];
@@ -26,15 +27,9 @@ export const PredictionForm = ({ locations, areaTypes, onPredict, isLoading }: P
     area_type: 'Super built-up  Area',
   });
 
-  // Mock data for future expansion
-  const states = ['Karnataka', 'Maharashtra', 'Delhi', 'Tamil Nadu', 'Telangana'];
-  const cities: Record<string, string[]> = {
-    'Karnataka': ['Bengaluru', 'Mysuru', 'Mangaluru'],
-    'Maharashtra': ['Mumbai', 'Pune', 'Nagpur'],
-    'Delhi': ['New Delhi', 'Gurgaon', 'Noida'],
-    'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai'],
-    'Telangana': ['Hyderabad', 'Warangal', 'Karimnagar'],
-  };
+  // Get all Indian states and cities
+  const states = getAllStates();
+  const cities = getCitiesByState(formData.state);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,10 +39,11 @@ export const PredictionForm = ({ locations, areaTypes, onPredict, isLoading }: P
   };
 
   const handleStateChange = (value: string) => {
+    const stateCities = getCitiesByState(value);
     setFormData({ 
       ...formData, 
       state: value, 
-      city: cities[value]?.[0] || '',
+      city: stateCities[0] || '',
       location: '' 
     });
   };
@@ -91,8 +87,8 @@ export const PredictionForm = ({ locations, areaTypes, onPredict, isLoading }: P
               <SelectTrigger>
                 <SelectValue placeholder="Select city" />
               </SelectTrigger>
-              <SelectContent>
-                {cities[formData.state]?.map((city) => (
+              <SelectContent className="max-h-[300px]">
+                {cities.map((city) => (
                   <SelectItem key={city} value={city}>
                     {city}
                   </SelectItem>
