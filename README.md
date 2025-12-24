@@ -1,44 +1,31 @@
-# Welcome to URBAN PRICE
+🏙️ Urban Price – Real Estate Price Prediction
 
-## Project info
+Urban Price is a machine learning–based web application designed to predict real estate property prices based on multiple features such as location, area, number of bedrooms, and other key parameters.
+The project aims to help buyers, sellers, and real estate analysts make data-driven decisions using predictive analytics.
 
-**URL**: http://urban-price.vercel.app
+Project Overview
 
-**Use your preferred IDE**
+The real estate market is highly dynamic, and property valuation depends on multiple interconnected factors. Traditional pricing methods are often inaccurate, subjective, or outdated.
+Urban Price addresses this problem by:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. Leveraging machine learning algorithms
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+2. Using historical real estate data
 
-Follow these steps:
+3. Providing fast and accurate price predictions through a user-friendly interface
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+🛠️ Tech Stack
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Frontend : HTML/CSS/JavaScript
 
-# Step 3: Install the necessary dependencies.
-npm i
+Backend : Python/Flask
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Machine Learning : Scikit-learn/Pandas/NumPy
 
-**Edit a file directly in GitHub**
+Deployment : Vercel (Frontend)/Flask API (Backend)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Live Application:
+https://urban-price.vercel.app
 
 
 
