@@ -26,7 +26,7 @@ Deployment : Vercel (Frontend)/Flask API (Backend)
 
 Live Application:
 https://urban-price.vercel.app
-
+ 
 
 
 
